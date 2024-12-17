@@ -2,6 +2,7 @@ mod jwt;
 mod base64;
 mod hmac_sha256;
 mod sha256;
+mod json;
 
 use std::io::{Read, Write};
 use std::net::TcpStream;

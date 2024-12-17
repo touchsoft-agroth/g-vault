@@ -102,7 +102,7 @@ pub struct Header {
 
 pub struct Claim {
     pub name: String,
-    pub value: ClaimValue
+    value: ClaimValue
 }
 
 impl Claim {
@@ -175,5 +175,5 @@ enum ClaimValue {
 }
 
 pub struct Signature {
-    pub value: [u8]
+    pub value: String
 }
