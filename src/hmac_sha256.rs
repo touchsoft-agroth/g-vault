@@ -7,13 +7,9 @@ pub fn hash(input: &str, secret_key: &str) -> String {
     let processed_key = process_key(secret_key);
     let message_bytes = input.as_bytes();
 
-    // Get inner hash bytes
     let inner_hash = create_inner_hash(&processed_key, message_bytes);
-
-    // Get outer hash and convert to hex string at the very end
     let final_bytes = create_outer_hash(&processed_key, &inner_hash);
 
-    // Only convert to hex string at the end
     bytes_to_hex_string(&final_bytes)
 }
 
@@ -23,11 +19,9 @@ fn create_outer_hash(key: &[u8], inner_hash: &[u8]) -> [u8; 32] {
         key_buffer[i] = key_buffer[i] ^ OPAD[i];
     }
 
-    // Concatenate bytes directly
     let mut final_message = key_buffer;
     final_message.extend_from_slice(inner_hash);
 
-    // SHA-256 should work with bytes
     sha256::hash(&final_message)
 }
 
@@ -37,11 +31,9 @@ fn create_inner_hash(key: &[u8], message: &[u8]) -> [u8; 32] {
         key_buffer[i] = key_buffer[i] ^ IPAD[i];
     }
 
-    // Concatenate bytes directly
     let mut final_message = key_buffer;
     final_message.extend_from_slice(message);
 
-    // SHA-256 should work with bytes
     sha256::hash(&final_message)
 }
 
@@ -53,10 +45,8 @@ fn process_key(key: &str) -> Vec<u8> {
         // Hash the key if it's too long
         let hashed = sha256::hash(key_bytes);
         processed.extend_from_slice(&hashed);
-        // Pad with zeros
         processed.resize(64, 0);
     } else {
-        // Copy the key and pad with zeros
         processed.extend_from_slice(key_bytes);
         processed.resize(64, 0);
     }

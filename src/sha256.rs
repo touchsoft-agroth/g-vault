@@ -58,7 +58,6 @@ pub fn hash(input: &[u8]) -> [u8; 32] {
     };
     let mut final_hash = [0u8; 32];
     for (i, &value) in hash_values.iter().enumerate() {
-        // Convert each 32-bit hash value into 4 bytes in big-endian order
         let bytes = value.to_be_bytes();
         // Copy these 4 bytes into the appropriate position in our final array
         final_hash[i*4..(i+1)*4].copy_from_slice(&bytes);
