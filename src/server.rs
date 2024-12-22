@@ -3,6 +3,10 @@ use std::net::TcpStream;
 use std::path::Path;
 use std::time::Instant;
 
+use crate::http;
+use crate::http::{Request, Response};
+use crate::storage::Repository;
+
 pub fn start(host: &str, port: usize, static_content_path: &str) {
     let full_address = format!("{}:{}", host, port);
 
@@ -27,7 +31,13 @@ fn handle_connection(stream: &mut TcpStream, root_path: &str) {
     let request_string = String::from_utf8_lossy(&buffer);
     let request_path = parse_request_path(&request_string);
 
-    serve_requested_resource(&request_path, stream, root_path);
+    println!("received request at path: {}", request_path);
+    if request_path.starts_with("/api") {
+        let mut request = Request::new(&request_path, stream);
+        handle_api_call(&mut request);
+    } else {
+        serve_requested_resource(&request_path, stream, root_path);
+    }
 }
 
 // tries to parse and extract the request path from a request.
@@ -40,10 +50,13 @@ fn parse_request_path(request: &str) -> String {
 fn serve_requested_resource(resource_path: &str, stream: &mut TcpStream, root_path: &str) {
     // construct the full file path. account for if the path is just "/"
     let file_path = if resource_path == "/" {
-        format!("{}/index.html", root_path)
+        let path = format!("{}/html/index.html", root_path);
+        println!("{}", path);
+        path
     } else {
         format!("{}/{}", root_path, resource_path)
     };
+
     let path = Path::new(&file_path);
 
     let response = match std::fs::read_to_string(&path) {
@@ -61,4 +74,39 @@ fn serve_requested_resource(resource_path: &str, stream: &mut TcpStream, root_pa
 
     stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
+}
+
+fn handle_api_call(request: &mut Request) {
+    let path = request.path.as_str();
+    let mut response = Response::new();
+    let repo = Repository::new();
+
+    match path {
+        "/api/password" => {
+            response.with_status(200);
+
+            let mut body = String::new();
+            body.push_str("[");
+            let passwords = repo.get_all();
+            for (i, password) in passwords.iter().enumerate() {
+                let json = format!(r#"{{"id": "{}", "service_name": "{}", "password_text": "{}"}}"#,
+                                   password.id,
+                                   password.service_name,
+                                   password.password_text);
+                body.push_str(&json);
+
+                if i != passwords.len() - 1 {
+                    body.push(',');
+                }
+            }
+            body.push_str("]");
+
+            response.with_body(&body);
+        },
+        _ => {
+            response.with_status(404);
+        }
+    }
+
+    request.respond(&mut response);
 }
