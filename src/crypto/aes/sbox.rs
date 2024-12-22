@@ -1,7 +1,10 @@
+// The first stage of the AES algorithm.
+
 // The S-Box provides AES non-linearity to the cipher, making it resistant to linear and
 // differential cryptanalysis. It works in two main mathematical steps:
 // 1. Find the multiplicative inverse in the Galois Field GF(2^8)
 // 2. Applying an affine transformation over GF(2)
+
 pub fn gen_sbox() -> [u8; 256] {
     let mut sbox = [0u8; 256];
 
@@ -10,7 +13,7 @@ pub fn gen_sbox() -> [u8; 256] {
         sbox[i] = affine_transform(inverse);
     }
 
-    sbox;
+    sbox
 }
 
 
@@ -35,7 +38,7 @@ fn gf_multiply(mut a: u8, mut b: u8) -> u8 {
 }
 
 // Function that finds the multiplicative inverse in GF(2^8)
-fn gf_inverse() {
+fn gf_inverse(x: u8) -> u8 {
     if x == 0 {
         return 0;
     }
@@ -53,7 +56,7 @@ fn gf_inverse() {
     result
 }
 
-fn affine_transform() {
+fn affine_transform(x: u8) -> u8 {
     let mut result = 0;
     let c = 0x64; // The constant vector used in AES
 

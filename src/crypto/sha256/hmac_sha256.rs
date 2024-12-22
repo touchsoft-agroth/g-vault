@@ -1,4 +1,4 @@
-use crate::sha256;
+use super::sha256;
 
 const OPAD: [u8; 64] = [0x5C; 64];
 const IPAD: [u8; 64] = [0x36; 64];
