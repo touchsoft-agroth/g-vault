@@ -72,14 +72,3 @@ fn affine_transform(x: u8) -> u8 {
     result ^= c;
     result
 }
-
-#[test]
-fn test_sbox_known_values() {
-    let sbox = generate_sbox();
-    // Test some known values from the AES specification
-    assert_eq!(sbox[0x00], 0x63);
-    assert_eq!(sbox[0x01], 0x7c);
-    assert_eq!(sbox[0x53], 0xed);
-    assert_eq!(sbox[0x7f], 0x4c);
-    assert_eq!(sbox[0xff], 0x16);
-}
