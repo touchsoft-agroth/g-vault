@@ -7,20 +7,22 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b87fd99e-9e0e-41d9-ad6c-39c961f14c37" name="Changes" comment="basic storage and password retrieval">
-      <change afterPath="$PROJECT_DIR$/src/http/tls/key_generation.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/http/tls/mod.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/http/tls/tls.rs" afterDir="false" />
+    <list default="true" id="b87fd99e-9e0e-41d9-ad6c-39c961f14c37" name="Changes" comment="beginning of tls handshake">
+      <change afterPath="$PROJECT_DIR$/src/http/tls/x25519.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/crypto/aes/sbox.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/crypto/aes/sbox.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/http/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/http/tls/key_generation.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/http/tls/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/tls/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/http/tls/tls.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/tls/tls.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:test" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:dev" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -33,25 +35,25 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "touchsoft-agroth"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;touchsoft-agroth&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/touchsoft-agroth/g-vault.git",
-    "accountId": "89864d27-891b-4a9f-9710-65fc56b285d2"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/touchsoft-agroth/g-vault.git&quot;,
+    &quot;accountId&quot;: &quot;89864d27-891b-4a9f-9710-65fc56b285d2&quot;
   }
-}]]></component>
+}</component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="4EL8PcxH" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2qZs9hExP3cPJcMKo5L7hQLJ7NZ" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -63,11 +65,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Cargo.Run g-vault.executor": "Run",
-    "Cargo.Test http::tls::tls::test_handshake_parsing.executor": "Debug",
+    "Cargo.Test http::tls::tls::test_handshake_parsing.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
     "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -85,7 +88,7 @@
       <recent name="C:\Users\AlexanderGroth\RustroverProjects\g-vault\www\html" />
     </key>
   </component>
-  <component name="RunManager" selected="Cargo.Test http::tls::tls::test_handshake_parsing">
+  <component name="RunManager" selected="Cargo.Run g-vault">
     <configuration name="Run g-vault" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="buildProfileId" value="dev" />
       <option name="command" value="run --package g-vault --bin g-vault" />
@@ -124,8 +127,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Cargo.Test http::tls::tls::test_handshake_parsing" />
         <item itemvalue="Cargo.Run g-vault" />
+        <item itemvalue="Cargo.Test http::tls::tls::test_handshake_parsing" />
       </list>
     </recent_temporary>
   </component>
@@ -140,7 +143,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1734881282623</updated>
-      <workItem from="1734881284557" duration="26255000" />
+      <workItem from="1734881284557" duration="28531000" />
+      <workItem from="1735034933287" duration="3502000" />
     </task>
     <task id="LOCAL-00001" summary="basic storage and password retrieval">
       <option name="closed" value="true" />
@@ -150,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734891987798</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="beginning of tls handshake">
+      <option name="closed" value="true" />
+      <created>1734908439080</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1734908439080</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,14 +170,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="basic storage and password retrieval" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic storage and password retrieval" />
+    <MESSAGE value="beginning of tls handshake" />
+    <option name="LAST_COMMIT_MESSAGE" value="beginning of tls handshake" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/http/tls/tls.rs</url>
-          <line>325</line>
+          <line>338</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>

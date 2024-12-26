@@ -6,6 +6,7 @@ use std::time::Instant;
 use crate::http;
 use crate::http::{Request, Response};
 use crate::storage::Repository;
+use crate::utils::formatting::bytes_to_hex;
 
 pub fn start(host: &str, port: usize, static_content_path: &str) {
     let full_address = format!("{}:{}", host, port);
@@ -24,8 +25,17 @@ pub fn start(host: &str, port: usize, static_content_path: &str) {
 
 fn handle_connection(stream: &mut TcpStream, root_path: &str) {
     // write the incoming request to a buffer
-    let mut buffer = [0; 1024];
-    stream.read(&mut buffer).unwrap();
+    let mut buffer = [0; 2048];
+    match stream.read(&mut buffer) {
+        Ok(n) => {
+            println!("Received {} bytes", n);
+            println!("Client message: \n{}", bytes_to_hex(&buffer, 50, ","));
+            http::do_tls(&buffer, stream);
+        },
+        Err(e) => panic!()
+    }
+    return;
+    // stream.read(&mut buffer).unwrap();
 
     // convert the request into a string and parse it
     let request_string = String::from_utf8_lossy(&buffer);

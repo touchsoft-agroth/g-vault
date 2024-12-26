@@ -2,11 +2,12 @@ mod server;
 mod crypto;
 mod http;
 mod storage;
+mod utils;
 
 fn main() {
     if cfg!(debug_assertions) {
         let host = "127.0.0.1";
-        let port = 5050;
+        let port = 443;
         let content_path = "./www";
 
         server::start(host, port.clone(), content_path);
